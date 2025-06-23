@@ -1,0 +1,107 @@
+{
+  "wifi": {
+    "ssid": "delete_python",
+    "password": "delete211",
+    "reconnect_strategy": {
+      "interval_seconds": 10,
+      "max_retries": 10,
+      "failure_action": "restart"
+    }
+  },
+  "mqtt": {
+    "client_id": "pico_device_001",
+    "server": "192.168.137.191",
+    "port": 1883,
+    "user": "",
+    "password": ""
+  },
+  "system": {
+    "enable_factory_reset": true,
+    "mqtt": {
+      "subscribe": {
+        "commands": "argon_bravo/pico/system/commands",
+        "power_config": "argon_bravo/pico/system/power_config"
+      },
+      "publish": {
+        "state": "argon_bravo/pico/system/state",
+        "errors": "argon_bravo/pico/system/errors"
+      }
+    },
+    "error_handling": {
+      "post_global_errors": true,
+      "auto_restart_on_error": false
+    },
+    "power": {
+      "deep_sleep_interval_s": 180,
+      "watchdog_timeout": 0
+    }
+  },
+  "logging": {
+    "level": "DEBUG",
+    "log_to_file": true,
+    "log_to_console": true,
+    "log_file_path": "device.log"
+  },
+  "sensors": [
+    {
+      "id": "sensor_01",
+      "type": "temperature_humidity",
+      "class": "TemperatureHumiditySensor",
+      "module": "temperature_humidity_sensor",
+      "args": {
+        "pin": 1
+      },
+      "mqtt": {
+        "publish": {
+          "state": "argon_bravo/pico/sensors/sensor_01/state",
+          "info": "argon_bravo/pico/sensors/sensor_01/info",
+          "data": "argon_bravo/pico/sensors/sensor_01/data",
+          "errors": "argon_bravo/pico/sensors/sensor_01/errors"
+        },
+        "subscribe": {
+          "commands": "argon_bravo/pico/sensors/sensor_01/commands",
+          "config": "argon_bravo/pico/sensors/sensor_01/config"
+        }
+      },
+      "parameters": {
+        "editable": {
+          "unit_temperature": "celsius",
+          "unit_humidity": "percentage",
+          "report_interval": 60
+        },
+        "read_only": {
+          "model": "DHT11",
+          "manufacturer": "Adafruit"
+        },
+        "defaults": {
+          "unit_temperature": "celsius",
+          "unit_humidity": "percentage",
+          "report_interval": 60
+        }
+      }, 
+      "capabilities": {
+        "read": [
+          "temperature",
+          "humidity"
+        ],
+        "write": [
+          "unit_temperature",
+          "unit_humidity",
+          "report_interval"
+        ],
+        "control": [
+          "enable",
+          "disable",
+          "self_test",
+          "factory_reset"
+        ]
+      }
+    }
+  ],
+  "service_led": {
+    "pin": 28,
+    "state_leds": {
+    }
+  }
+}
+
